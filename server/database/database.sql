@@ -1,0 +1,13 @@
+CREATE DATABASE react
+
+CREATE TABLE users(
+  user_id SERIAL PRIMARY KEY,
+  username VARCHAR(50) UNIQUE NOT NULL,
+  password VARCHAR(100) NOT NULL,
+  date_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  role VARCHAR(50) NOT NULL,
+  token TEXT,
+  token_expires_at TIMESTAMP
+);
+
+
