@@ -3,6 +3,7 @@ const user = express.Router();
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const pool = require("../database/db");
+const logger = require('../logger');
 
 user.post("/signin", async (req, res) => {
   try {
@@ -28,7 +29,7 @@ user.post("/signin", async (req, res) => {
     };
 
     await pool.query(updateQuery);
-
+    logger.info('Successful login')
     return res.status(200).json({ message: 'Sign-in successful', token, expiry: expiryTime });
   } catch (error) {
     console.error("Sign-in error:", error);
