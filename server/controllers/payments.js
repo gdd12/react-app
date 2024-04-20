@@ -1,9 +1,8 @@
 const express = require('express');
-const payments = express.Router();
-const passport = require('passport');
-const jwt = require('jsonwebtoken');
 const pool = require("../database/db");
 const logger = require('../logger');
+
+const payments = express.Router();
 
 payments.post("/payments", async (req, res) => {
   const { token, loan_id, payment_date, payment_amount, principal_amount, interest_amount } = req.body;

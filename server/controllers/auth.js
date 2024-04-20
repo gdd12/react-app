@@ -1,9 +1,8 @@
 const express = require('express');
-const auth = express.Router();
-const passport = require('passport');
-const jwt = require('jsonwebtoken');
 const pool = require("../database/db");
 const logger = require('../logger');
+
+const auth = express.Router();
 
 auth.post("/validate-token", async (req, res) => {
   try {

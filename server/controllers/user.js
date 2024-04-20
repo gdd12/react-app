@@ -1,10 +1,10 @@
 const express = require('express');
-const user = express.Router();
-const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const pool = require("../database/db");
 const logger = require('../logger');
 const defaultTokenExpiry = 30 * 60 * 1000 // 30 minutes for JWT
+
+const user = express.Router();
 
 user.post("/signin", async (req, res) => {
   try {
