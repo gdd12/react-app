@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import './Signin.css'
 
 function SignIn() {
   const [username, setUsername] = useState('');
@@ -19,8 +20,7 @@ function SignIn() {
         },
         body: JSON.stringify({ username, password })
       });
-
-      if (response.ok) {
+      if (response.status === 200) {
         const { token } = await response.json();
         sessionStorage.setItem('token', token);
         navigate('/dashboard');
@@ -35,8 +35,22 @@ function SignIn() {
   return (
     <div className="container">
       <h2>Sign In</h2>
+      <div className="error-placeholder" style={{ height: error.length > 0 ? '0' : '50px' }}></div>
+      {error.length > 0 && (
+          <div className="error">
+            {error.map((err, index) => (
+              <div key={index}>
+                {err instanceof Response ? (
+                  <p>{err.status}: {err.statusText}</p>
+                ) : (
+                  <p>{err.message}</p>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
       <form onSubmit={handleSubmit}>
-        <div>
+        <div className="item">
           <label htmlFor="username">Username:</label>
           <input
             type="text"
@@ -46,7 +60,7 @@ function SignIn() {
             required
           />
         </div>
-        <div>
+        <div className="item">
           <label htmlFor="password">Password:</label>
           <input
             type="password"
@@ -56,20 +70,7 @@ function SignIn() {
             required
           />
         </div>
-        <button type="submit">Sign In</button>
-        {error.length > 0 && (
-          <div>
-            {error.map((err, index) => (
-              <div key={index}>
-                {err instanceof Response ? (
-                  <p>{err.statusText}</p>
-                ) : (
-                  <p>{err.message}</p>
-                )}
-              </div>
-            ))}
-          </div>
-        )}
+        <button type="submit" className="item button">Sign In</button>
       </form>
     </div>
   );

@@ -17,7 +17,7 @@ user.post("/signin", async (req, res) => {
     const userRecord = result.rows[0];
 
     if (!userRecord || userRecord.password !== password) {
-      return res.status(401).json({ error: 'Incorrect username or password' });
+      return res.status(403).json({ error: 'Incorrect username or password' });
     }
 
     const token = jwt.sign({ userId: userRecord.user_id }, 'your_secret_key', { expiresIn: '30m' });
@@ -84,7 +84,7 @@ user.post("/validate-token", async (req, res) => {
       return res.status(403).json({ error: 'User does not have valid session' });
     }
     logger.info('POST /validate-token: Validate Token successful')
-    return res.status(200).json({ message: "Token is valid", token: userRecord.token })
+    return res.status(200).json({ message: "Token is valid", token: userRecord.token, tokenValid: true })
   } catch (error) {
     console.error("Sign-in error:", error);
     return res.status(500).json({ error: "Internal server error" });

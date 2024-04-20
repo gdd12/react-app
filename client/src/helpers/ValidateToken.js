@@ -9,8 +9,8 @@ const ValidateToken = async (token) => {
     });
 
     if (response.ok) {
-      console.log('Token is valid');
-      return true;
+      const data = await response.json();
+      return data.tokenValid;
     } else {
       console.error('Token validation failed:', response.statusText);
       return false;
