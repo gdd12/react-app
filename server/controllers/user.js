@@ -4,6 +4,7 @@ const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const pool = require("../database/db");
 const logger = require('../logger');
+const defaultTokenExpiry = 30 * 60 * 1000 // 30 minutes for JWT
 
 user.post("/signin", async (req, res) => {
   try {
@@ -21,7 +22,7 @@ user.post("/signin", async (req, res) => {
 
     const token = jwt.sign({ userId: userRecord.user_id }, 'your_secret_key', { expiresIn: '30m' });
 
-    const expiryTime = new Date(Date.now() + 30 * 60 * 1000);
+    const expiryTime = new Date(Date.now() + defaultTokenExpiry);
 
     const updateQuery = {
       text: 'UPDATE users SET token = $1, token_expires_at = $2 WHERE user_id = $3',
@@ -29,7 +30,7 @@ user.post("/signin", async (req, res) => {
     };
 
     await pool.query(updateQuery);
-    logger.info('Successful login')
+    logger.info('POST /signin: ', username, ' Signed in successfully')
     return res.status(200).json({ message: 'Sign-in successful', token, expiry: expiryTime });
   } catch (error) {
     console.error("Sign-in error:", error);
@@ -48,7 +49,7 @@ user.post("/logout", async (req, res) => {
     const userRecord = result.rows[0];
 
     if (!userRecord) {
-      return res.status(200).json({ error: 'User does not have valid session' });
+      return res.status(404).json({ error: 'User does not have valid session' });
     }
 
     const updateQuery = {
@@ -57,7 +58,7 @@ user.post("/logout", async (req, res) => {
     };
 
     await pool.query(updateQuery);
-
+    logger.info('POST /logout: Logout successful')
     return res.status(200).json({ message: 'Logout successful' });
   } catch (error) {
     console.error("Sign-in error:", error);
@@ -82,6 +83,7 @@ user.post("/validate-token", async (req, res) => {
     if (!userRecord.token || tokenExpiresAt < new Date()) {
       return res.status(403).json({ error: 'User does not have valid session' });
     }
+    logger.info('POST /validate-token: Validate Token successful')
     return res.status(200).json({ message: "Token is valid", token: userRecord.token })
   } catch (error) {
     console.error("Sign-in error:", error);

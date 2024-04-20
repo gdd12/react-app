@@ -10,14 +10,15 @@ const ValidateToken = async (token) => {
 
     if (response.ok) {
       console.log('Token is valid');
+      return true;
     } else {
       console.error('Token validation failed:', response.statusText);
+      return false;
     }
-    return(response.status)
   } catch (error) {
     console.error('Token validation error:', error.message);
-    return
+    return false;
   }
 };
 
-export default ValidateToken
+export default ValidateToken;
