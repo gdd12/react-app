@@ -1,14 +1,19 @@
 const express = require('express');
 const passport = require('./auth/passport');
-const userRoutes = require('./controllers/user');
 const session = require('express-session');
 const db = require('./database/db');
 const cors = require('cors');
+
+// Import controllers
+const userRoutes = require('./controllers/user');
+const authRoutes = require('./controllers/auth')
+const paymentRoutes = require('./controllers/payments')
 
 const app = express();
 app.use(cors());
 
 const secretKey = 'superSecretKeyLOL123!'
+const apiVersioning = '/api/v1'
 
 app.use(session({
   secret: secretKey,
@@ -21,7 +26,11 @@ app.use(passport.session());
 
 app.use(express.json());
 
-app.use('/api/user', userRoutes)
+app.use(`${apiVersioning}/user`, userRoutes)
+app.use(`${apiVersioning}/auth`, authRoutes)
+app.use(`${apiVersioning}/payments`, paymentRoutes)
+
+
 
 const PORT = process.env.PORT || 3000;
 

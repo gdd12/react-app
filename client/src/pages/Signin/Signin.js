@@ -13,7 +13,7 @@ function SignIn() {
     e.preventDefault();
 
     try {
-      const response = await fetch('http://localhost:3000/api/user/signin', {
+      const response = await fetch('http://localhost:3000/api/v1/user/signin', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

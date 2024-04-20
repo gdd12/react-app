@@ -1,6 +1,6 @@
 const ValidateToken = async (token) => {
   try {
-    const response = await fetch('http://localhost:3000/api/user/validate-token', {
+    const response = await fetch('http://localhost:3000/api/v1/auth/validate-token', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
