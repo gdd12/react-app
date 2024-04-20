@@ -4,9 +4,11 @@ import { useNavigate } from 'react-router-dom';
 function SignIn() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState([])
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
+    setError([])
     e.preventDefault();
 
     try {
@@ -23,15 +25,15 @@ function SignIn() {
         sessionStorage.setItem('token', token);
         navigate('/dashboard');
       } else {
-        console.error('Login failed:', response.statusText);
+        setError([response])
       }
     } catch (error) {
-      console.error('Login error:', error.message);
+      setError([error])
     }
   };
 
   return (
-    <div>
+    <div className="container">
       <h2>Sign In</h2>
       <form onSubmit={handleSubmit}>
         <div>
@@ -55,6 +57,19 @@ function SignIn() {
           />
         </div>
         <button type="submit">Sign In</button>
+        {error.length > 0 && (
+          <div>
+            {error.map((err, index) => (
+              <div key={index}>
+                {err instanceof Response ? (
+                  <p>{err.statusText}</p>
+                ) : (
+                  <p>{err.message}</p>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
       </form>
     </div>
   );

@@ -1,5 +1,5 @@
 import React from 'react';
-import SideNavigation from '../components/SideNavigation/SideNavigation';
+import SideNavigation from '../../components/SideNavigation/SideNavigation';
 
 function Profile() {
   return (

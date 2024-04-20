@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import SideNavigation from '../components/SideNavigation/SideNavigation';
-import ValidateToken from '../helpers/ValidateToken';
+import SideNavigation from '../../components/SideNavigation/SideNavigation';
+import ValidateToken from '../../helpers/ValidateToken';
 
 function Dashboard() {
   const navigate = useNavigate();

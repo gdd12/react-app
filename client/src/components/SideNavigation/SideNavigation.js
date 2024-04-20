@@ -8,7 +8,7 @@ function SideNavigation() {
       <ul>
         <li><Link to="/dashboard" className="nav-link">Dashboard</Link></li>
         <li><Link to="/profile" className="nav-link">Profile</Link></li>
-        <li><Link to="/signin"><a className="nav-link" onClick={Logout}>Logout</a></Link></li>
+        <li><Link to="/signin" className="nav-link" onClick={Logout}>Logout</Link></li>
       </ul>
     </div>
   );
