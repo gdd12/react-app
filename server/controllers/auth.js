@@ -7,6 +7,11 @@ const auth = express.Router();
 auth.post("/validate-token", async (req, res) => {
   try {
     const { token } = req.body;
+
+    if (!token) {
+      return res.status(400).json({ error: 'Bad request' });
+    }
+    
     const query = {
       text: 'SELECT * FROM users WHERE token = $1',
       values: [token]
@@ -15,7 +20,7 @@ auth.post("/validate-token", async (req, res) => {
     const userRecord = result.rows[0];
 
     if (!userRecord) {
-      return res.status(400).json({ error: 'No user/token combination' });
+      return res.status(200).json({ error: 'No user/token combination' });
     }
     const tokenExpiresAt = new Date(userRecord.token_expires_at);
     if (!userRecord.token || tokenExpiresAt < new Date()) {

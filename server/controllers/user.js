@@ -3,6 +3,8 @@ const jwt = require('jsonwebtoken');
 const pool = require("../database/db");
 const logger = require('../logger');
 const defaultTokenExpiry = 30 * 60 * 1000 // 30 minutes for JWT
+const config = require('config');
+const { secretKey } = config
 
 const user = express.Router();
 
@@ -20,7 +22,7 @@ user.post("/signin", async (req, res) => {
       return res.status(403).json({ error: 'Incorrect username or password' });
     }
 
-    const token = jwt.sign({ userId: userRecord.user_id }, 'your_secret_key', { expiresIn: '30m' });
+    const token = jwt.sign({ userId: userRecord.user_id }, secretKey, { expiresIn: '30m' });
 
     const expiryTime = new Date(Date.now() + defaultTokenExpiry);
 
