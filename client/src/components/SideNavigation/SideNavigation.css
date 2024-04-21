@@ -1,8 +1,6 @@
-/* styles.css */
-
 .sidebar {
   height: 100%;
-  width: 200px;
+  width: 120px;
   position: fixed;
   top: 0;
   left: 0;
@@ -31,6 +29,15 @@
 }
 
 .content {
-  margin-left: 220px; /* Adjust this value to match the width of your sidebar + some padding */
-  padding: 20px; /* Add padding to the content area */
+  margin-left: 220px;
+  padding: 20px;
+}
+
+.nav-link:hover {
+  background-color: #333;
+  cursor: pointer
+}
+
+.small {
+  font-size: 10px;
 }

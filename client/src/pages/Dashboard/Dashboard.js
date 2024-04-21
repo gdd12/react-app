@@ -33,7 +33,7 @@ function Dashboard() {
     <div className="dashboard">
       <SideNavigation />
       <div className="content">
-        <h1>Dashboard</h1>
+        <p>Dashboard</p>
       </div>
     </div>
   );
