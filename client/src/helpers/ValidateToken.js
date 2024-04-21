@@ -3,9 +3,9 @@ const ValidateToken = async (token) => {
     const response = await fetch('http://localhost:3000/api/v1/auth/validate-token', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${sessionStorage.getItem('token')}`
       },
-      body: JSON.stringify({ token })
     });
 
     if (response.ok) {

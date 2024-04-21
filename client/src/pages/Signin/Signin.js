@@ -5,11 +5,10 @@ import './Signin.css';
 function SignIn() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState([]);
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
-    setError([]);
     e.preventDefault();
 
     try {
@@ -20,32 +19,27 @@ function SignIn() {
         },
         body: JSON.stringify({ username, password })
       });
-      if (response.status === 200) {
-        const { token } = await response.json();
+      const data = await response.json();
+      
+      if (response.ok) {
+        const { token } = data;
         sessionStorage.setItem('token', token);
         navigate('/dashboard');
       } else {
-        setError([response]);
+        setError(data.message);
       }
     } catch (error) {
-      setError([error]);
+      console.error('Error:', error);
+      setError('An error occurred. Please try again later.');
     }
   };
 
   return (
     <div className="container">
       <h2>Sign In</h2>
-      {error.length > 0 && (
+      {error && (
         <div className="error">
-          {error.map((err, index) => (
-            <div key={index}>
-              {err instanceof Response ? (
-                <p>{err.status}: {err.statusText}</p>
-              ) : (
-                <p>{err.message}</p>
-              )}
-            </div>
-          ))}
+          <p>{error}</p>
         </div>
       )}
       <form onSubmit={handleSubmit}>
