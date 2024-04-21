@@ -3,7 +3,6 @@
   height: calc(100% - 15px);
   position: fixed;
   background-color: rgb(39, 41, 82);
-  /* padding: 10px; */
   box-sizing: border-box;
   border-radius: 8px;
   display: flex;
@@ -18,7 +17,7 @@
 
 .sidebar a {
   display: block;
-  color: white;
+  color: rgb(190, 190, 190);
   padding: 10px;
   text-decoration: none;
 }

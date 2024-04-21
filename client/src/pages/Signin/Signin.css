@@ -1,20 +1,53 @@
+body {
+  background-color: rgb(255,255,255)
+}
+
 .container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  border-radius: 8px;
+  background-color: rgb(242, 237, 243);
+  margin-top: 20vh;
+  
 }
 
 .item {
-  margin-bottom: 10px;
-  display: flex;
-  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.item label, .container h2 {
+  color: rgb(52,58,64)
 }
 
 label {
-  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.input-field {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #cccccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.button {
+  width: 100%;
+  padding: 10px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.button:hover {
+  background-color: #0056b3;
 }
 
 .error {
-  color: red
+  color: red;
+  margin-bottom: 10px;
 }

@@ -20,8 +20,8 @@ function SideNavigation() {
           </div>
           {dropdownOpen && (
             <ul className="dropdown-menu">
-              <li><Link to="/loans/add-loan" className="nav-link small"> - Add Loan</Link></li>
-              <li><Link to="/loans/add-payment" className="nav-link small">- Add Payment</Link></li>
+              <li><Link to="/loans/add-loan" className="nav-link small">{`>`} Add Loan</Link></li>
+              <li><Link to="/loans/add-payment" className="nav-link small">{`>`} Add Payment</Link></li>
             </ul>
           )}
         </li>
