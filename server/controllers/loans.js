@@ -30,3 +30,11 @@ loans.post('/add-loan', async (req, res) => {
 });
 
 module.exports = loans;
+
+
+/**
+const result = await pool.query(
+  'INSERT INTO payments (loan_id, payment_date, payment_amount, principal_amount, interest_amount) VALUES ($1, $2, $3, $4, $5)',
+  [loan_id, payment_date, payment_amount, principal_amount, interest_amount]
+);
+ */
