@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import SideNavigation from '../../components/SideNavigation/SideNavigation';
 import ValidateToken from '../../helpers/ValidateToken';
-import axios from 'axios';
-
+import { SendRequest } from '../../helpers/SendRequest';
 
 const AddPayment = () => {
   const navigate = useNavigate();
@@ -40,15 +39,14 @@ const AddPayment = () => {
   const handlePaymentSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await axios.post('http://localhost:3000/api/v1/loans/add-payment', {
-        token: token,
+      const response = await SendRequest('/loans/add-payment', 'POST', {
         loan_id: loanId,
         payment_date: paymentDate,
         payment_amount: paymentAmount,
         principal_amount: principalAmount,
         interest_amount: interestAmount
-      });
-      console.log(response.data);
+      }, token);
+      console.log(response)
       setLoanId('');
       setPaymentDate('');
       setPaymentAmount('');

@@ -2,12 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import SideNavigation from '../../components/SideNavigation/SideNavigation';
 import ValidateToken from '../../helpers/ValidateToken';
-import axios from 'axios';
-
+import { SendRequest } from '../../helpers/SendRequest';
 
 const AddLoans = () => {
   const navigate = useNavigate();
-  const [loanId, setLoanId] = useState('');
   const [loanType, setLoanType] = useState('');
   const [loanAmount, setLoanAmount] = useState('');
   const [interestRate, setInterestRate] = useState('');
@@ -19,7 +17,7 @@ const AddLoans = () => {
       navigate('/signin');
       return;
     }
-    
+
     const checkTokenValidity = async () => {
       const isValid = await ValidateToken(token);
       setValidToken(isValid);
@@ -34,24 +32,23 @@ const AddLoans = () => {
     }
   }, [validToken, navigate]);
 
-  const token = sessionStorage.getItem('token');
-
   const handleLoanSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await axios.post('http://localhost:3000/api/v1/loans/add-loan', {
-        token: token,
+      const token = sessionStorage.getItem('token');
+      const response = await SendRequest('/loans/add-loan', 'POST', {
         loan_type: loanType,
         loan_amount: loanAmount,
         interest_rate: interestRate
-      });
-      console.log(response.data);
+      }, token);
+      console.log(response)
       setLoanType('');
       setLoanAmount('');
       setInterestRate('');
       alert('Loan added successfully!');
     } catch (error) {
       console.error('Error adding loan:', error);
+      alert('Failed to add loan. Please try again later.');
     }
   };
 
@@ -82,7 +79,7 @@ const AddLoans = () => {
         </div>
       </div>
     </div>
-  );  
+  );
 };
 
 export default AddLoans;

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import SideNavigation from '../../components/SideNavigation/SideNavigation';
 import ValidateToken from '../../helpers/ValidateToken';
-import axios from 'axios';
+import { SendRequest } from '../../helpers/SendRequest';
 
 
 const Loans = () => {
@@ -34,17 +34,9 @@ const Loans = () => {
 
   const fetchLoanInformation = async (token) => {
     try {
-      const paymentsResponse = await axios.get('http://localhost:3000/api/v1/loans/payments', {
-        data: {
-          token: token
-        }
-      });
-      // const loansResponse = await axios.get('http://localhost:3000/api/v1/loans/loans', {
-      //   token: token
-      // });
-
-      console.log("payments",paymentsResponse)
-      // console.log("loans", loansResponse)
+      const loansResponse = await SendRequest('loans/loans', 'GET', {}, token)
+      const paymentsResponse = await SendRequest('loans/loans', 'GET', {}, token)
+      console.log(loansResponse, paymentsResponse)
     } catch (error) {
       console.error('Error adding loan:', error);
     }
