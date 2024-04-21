@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import SideNavigation from '../../components/SideNavigation/SideNavigation';
 import ValidateToken from '../../helpers/ValidateToken';
-import './Signin.css'
+import './Profile.css'
 
 function Profile() {
   const navigate = useNavigate();
