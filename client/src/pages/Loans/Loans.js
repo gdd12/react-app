@@ -38,8 +38,8 @@ const Loans = () => {
     try {
       const loansResponse = await SendRequest('loans/loans', 'GET', {}, token)
       const paymentsResponse = await SendRequest('loans/loans', 'GET', {}, token)
-      loansResponse.loans != (null || undefined) ? setLoans(loansResponse.loans) : setLoans([])
-      paymentsResponse.payments != (null || undefined) ? setPayments(paymentsResponse.payments) : setPayments([])
+      loansResponse.loans !== (null || undefined) ? setLoans(loansResponse.loans) : setLoans([])
+      paymentsResponse.payments !== (null || undefined) ? setPayments(paymentsResponse.payments) : setPayments([])
     } catch (error) {
       console.error('Error adding loan:', error);
     }
