@@ -39,7 +39,7 @@ const AddPayment = () => {
   const handlePaymentSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await SendRequest('loans/add-payment', 'POST', {
+      const response = await SendRequest('payments/add-payment', 'POST', {
         loan_id: loanId,
         payment_date: paymentDate,
         payment_amount: paymentAmount,

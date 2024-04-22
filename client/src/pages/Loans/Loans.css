@@ -1,0 +1,39 @@
+.loan-list,
+.payment-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.loan-item,
+.payment-item {
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.loan-item {
+  background-color: #f9f9f9;
+}
+
+.payment-item {
+  background-color: #f0f0f0;
+}
+
+.loan-item > div,
+.payment-item > div {
+  margin-bottom: 5px;
+  font-size: 13px;
+}
+
+.loan-item strong,
+.payment-item strong {
+  margin-right: 5px;
+}
+
+.loan-item button {
+  margin-left: 10px;
+}

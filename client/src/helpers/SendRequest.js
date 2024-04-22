@@ -1,3 +1,4 @@
+// Get rid of this file. Does not work as expected with errors
 import axios from 'axios';
 
 const API_BASE_URL = 'http://localhost:3000/api/v1';

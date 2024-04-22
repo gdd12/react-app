@@ -10,6 +10,7 @@ const { secretKey } = config
 const userRoutes = require('./controllers/user');
 const authRoutes = require('./controllers/auth')
 const loansRoutes = require('./controllers/loans')
+const paymentsRoutes = require('./controllers/payments')
 
 const app = express();
 app.use(cors());
@@ -30,8 +31,7 @@ app.use(express.json());
 app.use(`${apiVersioning}/user`, userRoutes)
 app.use(`${apiVersioning}/auth`, authRoutes)
 app.use(`${apiVersioning}/loans`, loansRoutes)
-
-
+app.use(`${apiVersioning}/payments`, paymentsRoutes)
 
 const PORT = process.env.PORT || 3000;
 
