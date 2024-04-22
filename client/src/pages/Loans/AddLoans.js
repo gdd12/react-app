@@ -36,7 +36,7 @@ const AddLoans = () => {
     event.preventDefault();
     try {
       const token = sessionStorage.getItem('token');
-      const response = await SendRequest('/loans/add-loan', 'POST', {
+      const response = await SendRequest('loans/add-loan', 'POST', {
         loan_type: loanType,
         loan_amount: loanAmount,
         interest_rate: interestRate

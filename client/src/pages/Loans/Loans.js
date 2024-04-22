@@ -8,6 +8,8 @@ import { SendRequest } from '../../helpers/SendRequest';
 const Loans = () => {
   const navigate = useNavigate();
   const [validToken, setValidToken] = useState(null);
+  const [loans, setLoans] = useState()
+  const [payments, setPayments] = useState()
 
   useEffect(() => {
     const token = sessionStorage.getItem('token');
@@ -36,7 +38,8 @@ const Loans = () => {
     try {
       const loansResponse = await SendRequest('loans/loans', 'GET', {}, token)
       const paymentsResponse = await SendRequest('loans/loans', 'GET', {}, token)
-      console.log(loansResponse, paymentsResponse)
+      loansResponse.loans != (null || undefined) ? setLoans(loansResponse.loans) : setLoans([])
+      paymentsResponse.payments != (null || undefined) ? setPayments(paymentsResponse.payments) : setPayments([])
     } catch (error) {
       console.error('Error adding loan:', error);
     }
@@ -45,7 +48,22 @@ const Loans = () => {
     <div className="Loan-container">
       <SideNavigation />
       <div className="content">
-        
+      <h2>Loans</h2>
+      <ul>
+        {loans && loans.map((loan, index) => (
+          <li key={index}>
+            Loan ID: {loan.loan_id}, Type: {loan.loan_type}, Amount: {loan.loan_amount}, Interest Rate: {loan.interest_rate}
+          </li>
+        ))}
+      </ul>
+      <h2>Payments</h2>
+      <ul>
+        {payments && payments.map((payment, index) => (
+          <li key={index}>
+            Payment ID: {payment.payment_id}, Amount: {payment.payment_amount}
+          </li>
+        ))}
+      </ul>
       </div>
     </div>
   );  
