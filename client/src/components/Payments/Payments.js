@@ -54,8 +54,21 @@ const GetPayments = async (token) => {
   }
 };
 
-const RemovePayment = async (token, requestData) => {
-
+const RemovePayment = async (token, paymentId) => {
+  try {
+    const responseData = await axios.delete(
+      `${config.api}/payments/payment/${paymentId}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      }
+    )
+    return responseData
+  } catch (error) {
+    console.error('Error fetching payments', error);
+    return error;
+  };
 };
 
 export { AddPayment, GetPayments, RemovePayment };

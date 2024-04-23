@@ -38,13 +38,15 @@ const Loans = () => {
   // }
 
   const removeLoan = async (loanId) => {
-    const removedLoanData = await RemoveLoan(token, loanId);
-    if (removedLoanData.response.status !== 200) {
-      alert(`Error ${removedLoanData.response.status} ${removedLoanData.response.data.error}`)
-    } else {
-      await getLoans();
-    }
-  }
+    if (window.confirm("Are you sure yo uwant to remove this loan?")) {
+      const removedLoanData = await RemoveLoan(token, loanId);
+      if (removedLoanData.response && removedLoanData.response.status !== 200) {
+        alert(`Error ${removedLoanData.response.status} ${removedLoanData.response.data.error}`)
+      } else {
+        await getLoans();
+      };
+    };
+  };
 
   // const addPayment = async () => {
   //   const addPaymentData = await AddPayment();
@@ -53,11 +55,18 @@ const Loans = () => {
   const getPayments = async () => {
     const paymentsData = await GetPayments(token);
     setPayments(paymentsData.data);
-  }
+  };
 
-  // const removePayment = async () => {
-  //   const removeLoanData = await RemoveLoan();
-  // }
+  const removePayment = async (paymentId) => {
+    if (window.confirm("Are you sure you want to remove this payment?")) {
+      const removePaymentData = await RemovePayment(token, paymentId);
+      if (removePaymentData.response && removePaymentData.response.status !== 200) {
+        alert(`Error ${removePaymentData.response.status} ${removePaymentData.response.data.error}`)
+      } else {
+        await getPayments();
+      };
+    };
+  };
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -99,6 +108,7 @@ const Loans = () => {
               <div><strong>Date:</strong> {formatDate(payment.payment_date)}</div>
               <div><strong>Principle</strong> {payment.principal_amount}</div>
               <div><strong>Interest</strong> {payment.interest_amount}</div>
+              <button onClick={() => removePayment(payment.payment_id)}>Delete Payment</button>
             </li>
           ))}
         </ul>

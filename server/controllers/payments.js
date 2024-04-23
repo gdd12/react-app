@@ -35,4 +35,19 @@ payments.get('/all-payments', authenticateToken, async (req, res) => {
   }
 });
 
+payments.delete('/payment/:id', authenticateToken, async (req, res) => {
+  const { id } = req.params
+  try {
+    const result = await pool.query('DELETE FROM payments WHERE payment_id = $1',
+      [id]
+    );
+    logger.info('DELETE /payment/:id: Payment deleted successfully');
+    return res.status(200).json({ success: true, message: 'Payment deleted successfully' });
+  } catch (error) {
+    logger.error('DELETE /payment/:id:', error);
+    console.log(error)
+    return res.status(500).json({ error: error.detail });
+  };
+});
+
 module.exports = payments;
