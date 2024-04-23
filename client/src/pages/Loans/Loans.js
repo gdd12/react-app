@@ -2,89 +2,57 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import SideNavigation from '../../components/SideNavigation/SideNavigation';
 import ValidateToken from '../../helpers/ValidateToken';
-import axios from 'axios';
+import { AddLoan, GetLoans, RemoveLoan } from '../../components/Loans/Loans';
+import { AddPayment, GetPayments, RemovePayment } from '../../components/Payments/Payments';
 import './Loans.css'
-import { config } from '../../config/default';
 
 const Loans = () => {
   const navigate = useNavigate();
+  const token = sessionStorage.getItem('token');
   const [validToken, setValidToken] = useState(null);
-  const [payments, setPayments] = useState([]);
   const [loans, setLoans] = useState([]);
+  const [payments, setPayments] = useState([]);
 
   useEffect(() => {
-    const token = sessionStorage.getItem('token');
-    if (!token) {
-      navigate('/signin');
-      return;
-    }
-
     const checkTokenValidity = async () => {
-      const isValid = await ValidateToken(token);
-      setValidToken(isValid);
+      setValidToken(await ValidateToken(token));
     };
-
     checkTokenValidity();
   }, [navigate]);
 
   useEffect(() => {
-    if (validToken === false) {
-      navigate('/signin');
-    } else {
-      fetchLoanInformation(sessionStorage.getItem('token'));
-      fetchPaymentInformation(sessionStorage.getItem('token'));
+    if (validToken === false) navigate('/signin');
+    else {
+      getLoans()
+      getPayments()
     }
   }, [validToken, navigate]);
 
-  const fetchLoanInformation = async (token) => {
-    try {
-      const loansResponse = await axios.get(
-        `${config.api}/loans/all-loans`, {
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json'
-          }
-        }
-      )
-      setLoans(loansResponse.data.loans)
-    } catch (error) {
-      console.error('Error fetching loan information:', error);
-    }
-  };
+  const getLoans = async () => {
+    const loansData = await GetLoans(token);
+    setLoans(loansData.data)
+  }
 
-  const fetchPaymentInformation = async (token) => {
-    const paymentsResponse = await axios.get(
-      `${config.api}/payments/all-payments`, {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        }
-      }
-    )
-    setPayments(paymentsResponse.data.payments)
+  // const addLoan = async () => {
+  //   await AddLoan();
+  // }
+
+  // const removeLoan = async () => {
+  //   await RemoveLoan();
+  // }
+
+  // const addPayment = async () => {
+  //   await AddPayment();
+  // }
+
+  const getPayments = async () => {
+    const paymentsData = await GetPayments(token);
+    setPayments(paymentsData.data);
   }
-  
-  const deleteLoanInformation = async (loanId) => {
-    try {
-      const token = sessionStorage.getItem('token')
-      const deletedLoan = await axios.delete(
-        `${config.api}/loans/loan/${loanId}`, {
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json'
-          }
-        }
-      )
-    } catch (error) {
-      if (error.response.status === 401) {
-        alert(error.response.statusText)
-        navigate('/signin')
-      }
-      if (error.response.status === 500) {
-        alert(`Error: ${error.response.data.error}`)
-      }
-    }
-  }
+
+  // const removePayment = async () => {
+  //   await RemoveLoan();
+  // }
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -94,14 +62,13 @@ const Loans = () => {
       day: 'numeric',
     });
   };
-
   return (
     <div className="Loan-container">
       <SideNavigation />
       <div className="content">
         <h2>Loans</h2>
         <ul className="loan-list">
-          { loans && loans.map((loan, index) => (
+          { loans.length > 0 && loans.map((loan, index) => (
             <li key={index} className="loan-item">
               <div>
                 <strong>{loan.loan_type}</strong>
@@ -112,13 +79,13 @@ const Loans = () => {
               <div>
                 <strong>Interest Rate:</strong>{loan.interest_rate}%
               </div>
-              <button onClick={() => deleteLoanInformation(loan.loan_id)}>Delete Loan</button>
+              {/* <button onClick={() => deleteLoanInformation(loan.loan_id)}>Delete Loan</button> */}
             </li>
           ))}
         </ul>
         <h2>Payments</h2>
         <ul className="payment-list">
-          {payments && payments.map((payment, index) => (
+          {payments.length > 0 && payments.map((payment, index) => (
             <li key={index} className="payment-item">
               <div><strong>Payment ID:</strong> {payment.payment_id}</div>
               <div><strong>Loan:</strong> {payment.loan_id}</div>
