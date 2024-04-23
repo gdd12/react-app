@@ -42,7 +42,7 @@ user.post("/signin", async (req, res) => {
 
 user.post("/logout", async (req, res) => {
   try {
-    const { token } = req.body;
+    const token = req.body.headers.Authorization.split(' ')[1];
     const query = {
       text: 'SELECT * FROM users WHERE token = $1',
       values: [token]
