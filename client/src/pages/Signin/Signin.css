@@ -36,7 +36,7 @@ label {
 .button {
   width: 100%;
   padding: 10px;
-  background-color: #007bff;
+  background-color: #ff6347;
   color: #fff;
   border: none;
   border-radius: 4px;
@@ -44,7 +44,7 @@ label {
 }
 
 .button:hover {
-  background-color: #0056b3;
+  background-color: #d84315;
 }
 
 .error {

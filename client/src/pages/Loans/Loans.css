@@ -25,14 +25,14 @@ h2 {
 
 .form-container label {
   margin-bottom: 10px;
+  font-size: 10px;
 }
 
-.form-container input[type="text"],
+/* .form-container input[type="text"],
 .form-container input[type="number"],
 .form-container input[type="date"] {
-  padding: 8px;
   margin-bottom: 10px;
-}
+} */
 
 .form-container button[type="submit"] {
   background-color: #007bff;

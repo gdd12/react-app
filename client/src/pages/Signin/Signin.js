@@ -36,7 +36,6 @@ function SignIn() {
 
   return (
     <div className="container">
-      <h2>Sign In</h2>
       {error && (
         <div className="error">
           <p>{error}</p>
