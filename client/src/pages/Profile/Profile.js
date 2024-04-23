@@ -30,12 +30,12 @@ function Profile() {
   }, [validToken, navigate]);
 
   return (
-    <div className="profile">
+    <>
       <SideNavigation />
       <div className="content">
         <p>Profile</p>
       </div>
-    </div>
+    </>
   );
 }
 

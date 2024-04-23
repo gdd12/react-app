@@ -30,12 +30,12 @@ function Dashboard() {
   }, [validToken, navigate]);
 
   return (
-    <div className="dashboard">
+    <>
       <SideNavigation />
       <div className="content">
         <p>Dashboard</p>
       </div>
-    </div>
+    </>
   );
 }
 
