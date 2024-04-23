@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import SideNavigation from '../../components/SideNavigation/SideNavigation';
+import Navigation from '../../components/Navigation/Navigation';
 import ValidateToken from '../../helpers/ValidateToken';
 import './Profile.css'
 
@@ -31,7 +31,7 @@ function Profile() {
 
   return (
     <>
-      <SideNavigation />
+      <Navigation />
       <div className="content">
         <p>Profile</p>
       </div>

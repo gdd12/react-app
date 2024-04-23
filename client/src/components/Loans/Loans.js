@@ -1,36 +1,19 @@
-import React, { useState } from 'react';
-import axios from 'axios';
 import { config } from '../../config/default'
+import axios from 'axios';
 
 const AddLoan = async (token, requestData) => {
-  const [loanType, setLoanType] = useState('');
-  const [loanAmount, setLoanAmount] = useState('');
-  const [interestRate, setInterestRate] = useState('');
-
   try {
-    // Remove the request Data from here since this will have to be sent from the front-end page
-    // const requestData = {
-    //   loan_type: loanType,
-    //   loan_amount: loanAmount,
-    //   interest_rate: interestRate
-    // }
     const responseData = await axios.post(
-      `${config.api}/loans/add-loan`, {
+      `${config.api}/loans/add-loan`, requestData, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
-        },
-        body: {...requestData}
+        }
       }
     );
-    setLoanType('');
-    setLoanAmount('');
-    setInterestRate('');
-    alert('Loan added successfully!');
     return responseData;
-    // May need to have return somewhere in here. Remove the state management and add it to the primary component?
   } catch (error) {
-    console.error('Error adding loan:', error);
+    // console.error('Error adding loan:', error);
     return error;
   }
 };

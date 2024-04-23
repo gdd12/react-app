@@ -1,33 +1,14 @@
-import React, { useState } from 'react';
-import axios from 'axios';
 import { config } from '../../config/default'
+import axios from 'axios';
 
 const AddPayment = async (token, requestData) => {
-  const [loanId, setLoanId] = useState('');
-  const [paymentDate, setPaymentDate] = useState('');
-  const [paymentAmount, setPaymentAmount] = useState('');
-  const [principalAmount, setPrincipalAmount] = useState('');
-  const [interestAmount, setInterestAmount] = useState('');
-
-
-  /**
-   need to send the following from the front end: 
-
-      loan_id: loanId,
-      payment_date: paymentDate,
-      payment_amount: paymentAmount,
-      principal_amount: principalAmount,
-      interest_amount: interestAmount
-
-  */
   try {
     const responseData = await axios.post(
-      `${config.api}/payments/add-payment`, {
+      `${config.api}/payments/add-payment`, requestData, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
         },
-        body: {...requestData}
       }
     );
     return responseData;
