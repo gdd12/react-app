@@ -28,7 +28,7 @@ payments.get('/all-payments', authenticateToken, async (req, res) => {
   try {
     const result = await pool.query('SELECT * FROM payments');
     logger.info('GET /payments: Fetched loans successfully')
-    return res.status(200).json({ success: true, payments: result.rows });
+    return res.status(200).json(result.rows);
   } catch (error) {
     logger.error('GET /payments:', error);
     return res.status(500).json({ error: 'Error fetching payments' });
