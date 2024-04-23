@@ -2,30 +2,24 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Navigation from '../../components/Navigation/Navigation';
 import ValidateToken from '../../helpers/ValidateToken';
-import './Dashboard.css'
+import './Dashboard.css';
 
 function Dashboard() {
   const navigate = useNavigate();
+  const token = sessionStorage.getItem('token');
   const [validToken, setValidToken] = useState(null);
 
   useEffect(() => {
-    const token = sessionStorage.getItem('token');
-    if (!token) {
-      navigate('/signin');
-      return;
-    }
-    
     const checkTokenValidity = async () => {
-      const isValid = await ValidateToken(token);
-      setValidToken(isValid);
+      setValidToken(await ValidateToken(token));
     };
-
     checkTokenValidity();
-  }, [navigate]);
+  }, [token]);
 
   useEffect(() => {
-    if (validToken === false) {
-      navigate('/signin');
+    if (validToken === false) navigate('/signin');
+    else {
+      /** Proceed with INIT functions */
     }
   }, [validToken, navigate]);
 

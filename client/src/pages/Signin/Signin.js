@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Login from '../../helpers/Login';
 import './Signin.css';
 
 function SignIn() {
@@ -12,21 +13,20 @@ function SignIn() {
     e.preventDefault();
 
     try {
-      const response = await fetch('http://localhost:3000/api/v1/user/signin', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ username, password })
-      });
-      const data = await response.json();
-      
-      if (response.ok) {
-        const { token } = data;
+      const requestData = {
+        username: username,
+        password: password
+      };
+
+      const signinResponse = await Login(requestData)
+
+      if (signinResponse && signinResponse.status === 200 && signinResponse.data && signinResponse.data.token) {
+        const token = signinResponse.data.token
         sessionStorage.setItem('token', token);
         navigate('/dashboard');
       } else {
-        setError(data.message);
+        console.log(signinResponse.response)
+        setError(`${signinResponse.response.status}: ${signinResponse.response.statusText}`);
       }
     } catch (error) {
       console.error('Error:', error);

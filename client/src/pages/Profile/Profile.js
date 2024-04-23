@@ -6,26 +6,20 @@ import './Profile.css'
 
 function Profile() {
   const navigate = useNavigate();
+  const token = sessionStorage.getItem('token');
   const [validToken, setValidToken] = useState(null);
 
   useEffect(() => {
-    const token = sessionStorage.getItem('token');
-    if (!token) {
-      navigate('/signin');
-      return;
-    }
-    
     const checkTokenValidity = async () => {
-      const isValid = await ValidateToken(token);
-      setValidToken(isValid);
+      setValidToken(await ValidateToken(token));
     };
-
     checkTokenValidity();
-  }, [navigate]);
+  }, [token]);
 
   useEffect(() => {
-    if (validToken === false) {
-      navigate('/signin');
+    if (validToken === false) navigate('/signin');
+    else {
+      /** Proceed with INIT functions */
     }
   }, [validToken, navigate]);
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Logout from '../../helpers/Logout';
-import './Navigation.css'
+import './Navigation.css';
 
 function Navigation() {
   return (

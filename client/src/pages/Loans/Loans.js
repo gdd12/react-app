@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Navigation from '../../components/Navigation/Navigation';
 import ValidateToken from '../../helpers/ValidateToken';
@@ -21,12 +21,22 @@ const Loans = () => {
   const [principalAmount, setPrincipalAmount] = useState('');
   const [interestAmount, setInterestAmount] = useState('');
 
+  const getLoans = useCallback(async () => {
+    const loansData = await GetLoans(token);
+    setLoans(loansData.data)
+  }, [token]);
+
+  const getPayments = useCallback(async () => {
+    const paymentsData = await GetPayments(token);
+    setPayments(paymentsData.data);
+  }, [token]);
+
   useEffect(() => {
     const checkTokenValidity = async () => {
       setValidToken(await ValidateToken(token));
     };
     checkTokenValidity();
-  }, [navigate]);
+  }, [token]);
 
   useEffect(() => {
     if (validToken === false) navigate('/signin');
@@ -34,12 +44,7 @@ const Loans = () => {
       getLoans()
       getPayments()
     }
-  }, [validToken, navigate]);
-
-  const getLoans = async () => {
-    const loansData = await GetLoans(token);
-    setLoans(loansData.data)
-  }
+  }, [validToken, navigate, getLoans, getPayments]);
 
   const addLoan = async (event) => {
     event.preventDefault();
@@ -91,11 +96,6 @@ const Loans = () => {
     setInterestAmount('');
     await getPayments();
   }
-
-  const getPayments = async () => {
-    const paymentsData = await GetPayments(token);
-    setPayments(paymentsData.data);
-  };
 
   const removePayment = async (paymentId) => {
     if (window.confirm("Are you sure you want to remove this payment?")) {

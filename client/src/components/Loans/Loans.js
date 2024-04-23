@@ -1,4 +1,4 @@
-import { config } from '../../config/default'
+import { config } from '../../config/default';
 import axios from 'axios';
 
 const AddLoan = async (token, requestData) => {
@@ -13,7 +13,7 @@ const AddLoan = async (token, requestData) => {
     );
     return responseData;
   } catch (error) {
-    // console.error('Error adding loan:', error);
+    console.error('Error adding loan:', error);
     return error;
   }
 };
@@ -27,7 +27,7 @@ const GetLoans = async (token) => {
           'Content-Type': 'application/json'
         }
       }
-    )
+    );
     return responseData
   } catch (error) {
     console.error('Error fetching loans:', error);
@@ -44,10 +44,10 @@ const RemoveLoan = async (token, loanId) => {
           'Content-Type': 'application/json'
         }
       }
-    )
+    );
     return responseData;
   } catch (error) {
-    console.error('Error removing loans:', error);
+    console.error('Error removing loan:', error);
     return error;
   }
 };

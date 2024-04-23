@@ -1,4 +1,4 @@
-import { config } from '../../config/default'
+import { config } from '../../config/default';
 import axios from 'axios';
 
 const AddPayment = async (token, requestData) => {
@@ -47,7 +47,7 @@ const RemovePayment = async (token, paymentId) => {
     )
     return responseData
   } catch (error) {
-    console.error('Error fetching payments', error);
+    console.error('Error removing payment', error);
     return error;
   };
 };
