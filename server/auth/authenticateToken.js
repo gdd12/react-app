@@ -19,11 +19,11 @@ const authenticateToken = async (req, res, next) => {
     const isTokenValid = tokenQuery.rows[0]?.token_expires_at > new Date();
 
     if (!isTokenValid || !decoded) {
-      return res.status(401).json({ message: 'Unauthorized.' });
+      return res.status(401).json({ error: 'Unauthorized.' });
     };
     next();
   } catch (error) {
-    return res.status(401).json({ message: 'Invalid token.' });
+    return res.status(401).json({ error: 'Invalid token.' });
   };
 };
 

@@ -34,15 +34,20 @@ const Loans = () => {
   }
 
   // const addLoan = async () => {
-  //   await AddLoan();
+  //   const addLoanData = await AddLoan();
   // }
 
-  // const removeLoan = async () => {
-  //   await RemoveLoan();
-  // }
+  const removeLoan = async (loanId) => {
+    const removedLoanData = await RemoveLoan(token, loanId);
+    if (removedLoanData.response.status !== 200) {
+      alert(`Error ${removedLoanData.response.status} ${removedLoanData.response.data.error}`)
+    } else {
+      await getLoans();
+    }
+  }
 
   // const addPayment = async () => {
-  //   await AddPayment();
+  //   const addPaymentData = await AddPayment();
   // }
 
   const getPayments = async () => {
@@ -51,7 +56,7 @@ const Loans = () => {
   }
 
   // const removePayment = async () => {
-  //   await RemoveLoan();
+  //   const removeLoanData = await RemoveLoan();
   // }
 
   const formatDate = (dateString) => {
@@ -79,7 +84,8 @@ const Loans = () => {
               <div>
                 <strong>Interest Rate:</strong>{loan.interest_rate}%
               </div>
-              {/* <button onClick={() => deleteLoanInformation(loan.loan_id)}>Delete Loan</button> */}
+              {/* I am trying to set up the removeLoan function which needs to accept the  */}
+              <button onClick={() => removeLoan(loan.loan_id)}>Delete Loan</button>
             </li>
           ))}
         </ul>
