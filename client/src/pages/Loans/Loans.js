@@ -77,29 +77,34 @@ const Loans = () => {
           <ul className="loan-list">
             {loans.length > 0 && loans.map((loan, index) => (
               <li key={index} className="loan-item">
-                <div><strong>{loan.loan_type}</strong></div>
-                <div><strong>Amount:</strong>${loan.loan_amount}</div>
-                <div><strong>Interest Rate:</strong>{loan.interest_rate}%</div>
-                <button onClick={() => removeLoan(loan.loan_id)}>Delete Loan</button>
+                <div className="loan-details">
+                  <div><strong>{loan.loan_type}</strong></div>
+                  <div><strong>Amount:</strong> ${loan.loan_amount}</div>
+                  <div><strong>APR:</strong> {loan.interest_rate}%</div>
+                </div>
+                <div className="loan-actions">
+                  <button onClick={() => removeLoan(loan.loan_id)}>Delete Loan</button>
+                </div>
               </li>
             ))}
           </ul>
         </div>
         <div className="payment-content">
           <h2>Payments</h2>
-          <ul className="payment-list">
-            {payments.length > 0 && payments.map((payment, index) => (
-              <li key={index} className="payment-item">
-                <div><strong>Payment ID:</strong> {payment.payment_id}</div>
-                <div><strong>Loan:</strong> {payment.loan_id}</div>
-                <div><strong>Amount:</strong> ${payment.payment_amount}</div>
-                <div><strong>Date:</strong> {formatDate(payment.payment_date)}</div>
-                <div><strong>Principal:</strong> {payment.principal_amount}</div>
-                <div><strong>Interest:</strong> {payment.interest_amount}</div>
-                <button onClick={() => removePayment(payment.payment_id)}>Delete Payment</button>
-              </li>
-            ))}
-          </ul>
+          <table className="payment-table">
+            <tbody>
+              {payments.map((payment, index) => (
+                <tr key={index}>
+                  <td><strong>Loan:</strong> {payment.loan_id}</td>
+                  <td><strong>Amount:</strong> ${payment.payment_amount}</td>
+                  <td><strong>Date:</strong> {formatDate(payment.payment_date)}</td>
+                  <td><strong>Principal:</strong> ${payment.principal_amount}</td>
+                  <td><strong>Interest:</strong> ${payment.interest_amount}</td>
+                  <td><button onClick={() => removePayment(payment.payment_id)}>Delete</button></td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       </div>
     </>

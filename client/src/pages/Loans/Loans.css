@@ -1,77 +1,74 @@
 .content-container {
   display: flex;
-  justify-content: space-around;
-  margin-top: 20px;
-}
-
-.loan-content,
-.payment-content {
-  width: 45%;
-}
-
-h2 {
-  color: #333;
-  margin-bottom: 20px;
-}
-
-.form-container {
-  margin-bottom: 20px;
-}
-
-.form-container form {
-  display: flex;
   flex-direction: column;
 }
 
-.form-container label {
-  margin-bottom: 10px;
-  font-size: 10px;
-}
-
-/* .form-container input[type="text"],
-.form-container input[type="number"],
-.form-container input[type="date"] {
-  margin-bottom: 10px;
-} */
-
-.form-container button[type="submit"] {
-  background-color: #007bff;
-  color: white;
-  border: none;
-  padding: 10px 20px;
+.loan-content, .payment-content {
+  margin-top: 20px;
+  background-color: rgb(200, 200, 200);
   border-radius: 5px;
-  cursor: pointer;
+  padding: 10px;
 }
 
-.form-container button[type="submit"]:hover {
-  background-color: #0056b3;
+.loan-content h2, .payment-content h2 {
+  font-size: 20px;
+  margin-bottom: 10px;
+  margin-left: 20px;
 }
 
-.loan-list,
-.payment-list {
+.loan-list {
   list-style-type: none;
   padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
 }
 
-.loan-item,
-.payment-item {
+.loan-item {
+  flex-basis: calc(14.2857% - 20px);
+  max-width: calc(14.2857% - 20px);
+  background-color: rgb(240, 240, 240);
+  border-radius: 8px;
+  padding: 8px;
   margin-bottom: 20px;
-  border: 1px solid #ddd;
-  padding: 10px;
-  border-radius: 5px;
 }
 
-.loan-item button,
-.payment-item button {
-  background-color: #dc3545;
-  color: white;
-  border: none;
-  padding: 8px 16px;
+.loan-actions {
+  margin-left: 20px;
+}
+
+.payment-table {
+  border-collapse: collapse;
+  width: 95%;
+  margin-left: 40px;
+}
+
+.payment-table td, .payment-table th {
+  padding: 8px;
+  text-align: left;
+  position: relative;
+}
+
+.payment-table td button {
+  position: absolute;
+  right: 1%;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.payment-table tr:nth-child(odd) {
+  background-color: rgb(175, 175, 175);
+}
+
+button {
+  background-color: rgb(255, 99, 71);
   border-radius: 5px;
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
   cursor: pointer;
 }
 
-.loan-item button:hover,
-.payment-item button:hover {
-  background-color: #c82333;
+button:hover {
+  background-color: rgb(216, 67, 21);
 }
