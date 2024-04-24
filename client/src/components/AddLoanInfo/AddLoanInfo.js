@@ -106,9 +106,39 @@ const AddLoanInfo = () => {
               </select>
             </label>
             <label>Payment Date:<input type="date" value={paymentDate} onChange={(e) => setPaymentDate(e.target.value)} /></label>
-            <label>Total Amount:<input type="number" value={paymentAmount} onChange={(e) => setPaymentAmount(e.target.value)} /></label>
-            <label>Principal Amount:<input type="number" value={principalAmount} onChange={(e) => setPrincipalAmount(e.target.value)} /></label>
-            <label>Interest Amount:<input type="number" value={interestAmount} onChange={(e) => setInterestAmount(e.target.value)} /></label>
+            <label>Total Amount:
+              <input type="number" value={paymentAmount} onChange={(e) => {
+                const totalAmount = parseFloat(e.target.value);
+                const principal = parseFloat(principalAmount);
+
+                if (!isNaN(totalAmount) && !isNaN(principal)) {
+                  setInterestAmount((totalAmount - principal).toFixed(2));
+                }
+                setPaymentAmount(totalAmount);
+              }} />
+            </label>
+            <label>Principal Amount:
+              <input type="number" value={principalAmount} onChange={(e) => {
+                const principal = parseFloat(e.target.value);
+                const totalAmount = parseFloat(paymentAmount);
+
+                if (!isNaN(totalAmount) && !isNaN(principal)) {
+                  setInterestAmount((totalAmount - principal).toFixed(2));
+                }
+                setPrincipalAmount(principal);
+              }} />
+            </label>
+            <label>Interest Amount:
+              <input type="number" value={interestAmount} onChange={(e) => {
+                const interest = parseFloat(e.target.value);
+                const totalAmount = parseFloat(paymentAmount);
+                const principal = parseFloat(principalAmount);
+
+                if (!isNaN(totalAmount) && !isNaN(principal) && !isNaN(interest)) {
+                  setInterestAmount((totalAmount - principal).toFixed(2));
+                }
+              }} />
+            </label>
             <button type="submit">Add Payment</button>
           </form>
         </div>
