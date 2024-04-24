@@ -1,3 +1,14 @@
 {
-  "secretKey": "superSecretKeyLOL123!"
+  "secretKey": "superSecretKeyLOL123!",
+  "apiVersion": "/api/v1",
+  "application": {
+    "port": "3000"
+  },
+  "database":{
+    "user": "postgres",
+    "password": "password",
+    "host": "localhost",
+    "port": "5432",
+    "database": "react"
+  }
 }

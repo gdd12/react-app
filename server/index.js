@@ -4,7 +4,13 @@ const session = require('express-session');
 const db = require('./database/db');
 const cors = require('cors');
 const config = require('config');
-const { secretKey } = config
+const { 
+  secretKey, 
+  apiVersion, 
+  application: {
+    port
+  }
+} = config;
 
 // Import controllers
 const userRoutes = require('./controllers/user');
@@ -14,8 +20,6 @@ const paymentsRoutes = require('./controllers/payments')
 
 const app = express();
 app.use(cors());
-
-const apiVersioning = '/api/v1'
 
 app.use(session({
   secret: secretKey,
@@ -28,15 +32,11 @@ app.use(passport.session());
 
 app.use(express.json());
 
-app.use(`${apiVersioning}/user`, userRoutes)
-app.use(`${apiVersioning}/auth`, authRoutes)
-app.use(`${apiVersioning}/loans`, loansRoutes)
-app.use(`${apiVersioning}/payments`, paymentsRoutes)
+app.use(`${apiVersion}/user`, userRoutes)
+app.use(`${apiVersion}/auth`, authRoutes)
+app.use(`${apiVersion}/loans`, loansRoutes)
+app.use(`${apiVersion}/payments`, paymentsRoutes)
 
-const PORT = process.env.PORT || 3000;
-
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
 });
-
-module.exports = { secretKey };
