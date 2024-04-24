@@ -1,0 +1,54 @@
+.add-payment-content {
+  width: 350px;
+  margin-left: 40px;
+  margin-right: 40px;
+}
+
+.add-payment-content h2 {
+  color: #333;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.add-payment-content .form-container {
+  background-color: rgb(200, 200, 200);
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.add-payment-content form {
+  display: flex;
+  flex-direction: column;
+}
+
+.add-payment-content label {
+  margin-bottom: 10px;
+  width: 300px;
+}
+
+.add-payment-content input[type="date"],
+.add-payment-content input[type="number"],
+.add-payment-content select {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 100%;
+  margin-top: 5px;
+}
+
+.add-payment-content button[type="submit"] {
+  background-color: #ff6347;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 140px;
+  margin: auto;
+  margin-top: 10px;
+}
+
+.add-payment-content button[type="submit"]:hover {
+  background-color: #d84315;
+}

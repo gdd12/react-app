@@ -26,7 +26,11 @@ payments.post('/add-payment', authenticateToken, async (req, res) => {
 
 payments.get('/all-payments', authenticateToken, async (req, res) => {
   try {
-    const result = await pool.query('SELECT * FROM payments');
+    const result = await pool.query(`
+      SELECT payments.payment_id, payments.payment_date, payments.payment_amount, payments.principal_amount, payments.interest_amount, loans.loan_type
+      FROM payments
+      JOIN loans ON payments.loan_id = loans.loan_id
+    `);
     logger.info('GET /payments: Fetched loans successfully')
     return res.status(200).json(result.rows);
   } catch (error) {
@@ -45,7 +49,6 @@ payments.delete('/payment/:id', authenticateToken, async (req, res) => {
     return res.status(200).json({ success: true, message: 'Payment deleted successfully' });
   } catch (error) {
     logger.error('DELETE /payment/:id:', error);
-    console.log(error)
     return res.status(500).json({ error: error.detail });
   };
 });

@@ -95,7 +95,7 @@ const Loans = () => {
             <tbody>
               {payments.map((payment, index) => (
                 <tr key={index}>
-                  <td><strong>Loan:</strong> {payment.loan_id}</td>
+                  <td><strong>Loan:</strong> {payment.loan_type}</td>
                   <td><strong>Amount:</strong> ${payment.payment_amount}</td>
                   <td><strong>Date:</strong> {formatDate(payment.payment_date)}</td>
                   <td><strong>Principal:</strong> ${payment.principal_amount}</td>

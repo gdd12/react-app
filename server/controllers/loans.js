@@ -46,7 +46,6 @@ loans.delete('/loan/:id', authenticateToken, async (req, res) => {
     return res.status(200).json({ success: true, message: 'Loan deleted successfully' });
   } catch (error) {
     logger.error('DELETE /loan/:id:', error);
-    console.log(error)
     return res.status(500).json({ error: error.detail });
   }
 });
