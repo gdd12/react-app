@@ -1,4 +1,4 @@
-import { config } from '../../config/default';
+import { config } from '../config/default';
 import axios from 'axios';
 
 const AddPayment = async (token, requestData) => {
