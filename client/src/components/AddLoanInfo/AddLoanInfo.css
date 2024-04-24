@@ -1,7 +1,6 @@
 .add-payment-content {
   width: 350px;
   margin-left: 40px;
-  margin-right: 40px;
 }
 
 .add-payment-content h2 {
@@ -50,5 +49,60 @@
 }
 
 .add-payment-content button[type="submit"]:hover {
+  background-color: #d84315;
+}
+
+.add-loan-content {
+  width: 350px;
+  margin-left: 400px;
+  float: left;
+  margin-top: -490px;
+}
+
+.add-loan-content h2 {
+  color: #333;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.add-loan-content .form-container {
+  background-color: rgb(200, 200, 200);
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.add-loan-content form {
+  display: flex;
+  flex-direction: column;
+}
+
+.add-loan-content label {
+  margin-bottom: 10px;
+  width: 300px;
+}
+
+.add-loan-content input[type="text"],
+.add-loan-content input[type="number"] {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 100%;
+  margin-top: 5px;
+}
+
+.add-loan-content button[type="submit"] {
+  background-color: #ff6347;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 140px;
+  margin: auto;
+  margin-top: 10px;
+}
+
+.add-loan-content button[type="submit"]:hover {
   background-color: #d84315;
 }

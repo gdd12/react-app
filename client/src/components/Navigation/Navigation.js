@@ -22,8 +22,7 @@ function Navigation() {
         <li className={`navigation-link dropdown ${dropdownOpen ? 'open' : ''}`} onMouseEnter={handleDropdownToggle} onMouseLeave={handleDropdownToggle}>
           <Link to="/loans">Loans</Link>
           <div className={`dropdown-content ${dropdownOpen ? 'show' : ''}`}>
-            <Link to="/loans/add-payment" onClick={closeDropdown}>Add Payment</Link>
-            <Link to="/loans/add-loan" onClick={closeDropdown}>Add Loan</Link>
+            <Link to="/loans/add-info" onClick={closeDropdown}>Add Loan/Payment</Link>
           </div>
         </li>
       </ul>

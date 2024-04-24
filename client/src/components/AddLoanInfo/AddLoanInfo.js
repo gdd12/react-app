@@ -1,21 +1,35 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Navigation from '../Navigation/Navigation';
 import ValidateToken from '../../helpers/ValidateToken';
 import { AddPayment } from '../../helpers/Payments';
-import { GetLoans } from '../../helpers/Loans';
-import './AddPayment.css'
+import { GetLoans, AddLoan } from '../../helpers/Loans';
+import './AddLoanInfo.css'
 
-const AddPaymentComponent = () => {
+const AddLoanInfo = () => {
   const navigate = useNavigate();
   const token = sessionStorage.getItem('token');
   const [validToken, setValidToken] = useState(null);
+/* For Payments */
   const [loanId, setLoanId] = useState('');
   const [paymentDate, setPaymentDate] = useState('');
   const [paymentAmount, setPaymentAmount] = useState('');
   const [principalAmount, setPrincipalAmount] = useState('');
   const [interestAmount, setInterestAmount] = useState('');
   const [loanNames, setLoanNames] = useState([]);
+/* For Loans */
+  const [loanType, setLoanType] = useState('');
+  const [loanAmount, setLoanAmount] = useState('');
+  const [interestRate, setInterestRate] = useState('');
+
+  const fetchLoanNames = useCallback(async () => {
+    try {
+      const response = await GetLoans(token);
+      setLoanNames(response.data);
+    } catch (error) {
+      console.error('Error fetching loans:', error);
+    }
+  }, [token]);
 
   useEffect(() => {
     const checkTokenValidity = async () => {
@@ -25,19 +39,11 @@ const AddPaymentComponent = () => {
   }, [token]);
 
   useEffect(() => {
-    const fetchLoanNames = async () => {
-      try {
-        const response = await GetLoans(token);
-        setLoanNames(response.data);
-      } catch (error) {
-        console.error('Error fetching loans:', error);
-      }
-    };
     if (validToken === false) navigate('/signin');
     else {
       fetchLoanNames();
     }
-  }, [validToken, navigate, token]);
+  }, [validToken, navigate, token, fetchLoanNames]);
 
   const addPayment = async (event) => {
     event.preventDefault();
@@ -60,6 +66,25 @@ const AddPaymentComponent = () => {
     setPaymentAmount('');
     setPrincipalAmount('');
     setInterestAmount('');
+  };
+
+  const addLoan = async (event) => {
+    event.preventDefault();
+
+    const requestData = {
+      loan_type: loanType,
+      loan_amount: loanAmount,
+      interest_rate: interestRate
+    };
+    const addLoanData = await AddLoan(sessionStorage.getItem('token'), requestData);
+    if (addLoanData.response && addLoanData.response.status !== 200) {
+      return alert(`Error ${addLoanData.response.status} ${addLoanData.response.data.error}`)
+    };
+    alert(addLoanData.data.message)
+    setLoanType('');
+    setLoanAmount('');
+    setInterestRate('');
+    fetchLoanNames();
   };
 
   return (
@@ -88,8 +113,19 @@ const AddPaymentComponent = () => {
           </form>
         </div>
       </div>
+      <div className="add-loan-content">
+        <h2>Loans</h2>
+        <div className="form-container">
+          <form onSubmit={addLoan}>
+            <label>Loan Type:<input type="text" value={loanType} onChange={(e) => setLoanType(e.target.value)} /></label>
+            <label>Loan Amount:<input type="number" value={loanAmount} onChange={(e) => setLoanAmount(e.target.value)} /></label>
+            <label>Interest Rate:<input type="number" value={interestRate} onChange={(e) => setInterestRate(e.target.value)} /></label>
+            <button type="submit">Add Loan</button>
+          </form>
+        </div>
+      </div>
     </>
   );
 };
 
-export default AddPaymentComponent;
+export default AddLoanInfo;

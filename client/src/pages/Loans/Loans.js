@@ -71,7 +71,7 @@ const Loans = () => {
   return (
     <>
       <Navigation />
-      <div className="content-container">
+      <div className="loan-content-container">
         <div className="loan-content">
           <h2>Loans</h2>
           <ul className="loan-list">
