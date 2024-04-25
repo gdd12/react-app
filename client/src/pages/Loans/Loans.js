@@ -21,7 +21,7 @@ const Loans = () => {
 // Editing payment
   const [loanId, setLoanId] = useState('');
   /** This state will be used for updating the loan the payment is attached to */
-  // const [loanType, setLoanType] = useState('');
+  const [loanType, setLoanType] = useState('');
   const [paymentId, setPaymentId] = useState('');
   const [paymentDate, setPaymentDate] = useState('');
   const [paymentAmount, setPaymentAmount] = useState('');
