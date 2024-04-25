@@ -20,11 +20,7 @@ const AddLoanComponent = ({ onLoanAdded, onCancel }) => {
     if (addLoanData.response && addLoanData.response.status !== 200) {
       return alert(`Error ${addLoanData.response.status} ${addLoanData.response.data.error}`);
     }
-
-    // alert(addLoanData.data.message);
-
     onLoanAdded();
-
     setLoanType('');
     setLoanAmount('');
     setInterestRate('');

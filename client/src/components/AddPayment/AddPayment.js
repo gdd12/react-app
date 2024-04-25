@@ -39,9 +39,7 @@ const AddPaymentComponent = ({ onPaymentAdded, onCancel }) => {
     if (addPaymentData.response && addPaymentData.response.status !== 200) {
       return alert(`Error ${addPaymentData.response.status} ${addPaymentData.response.data.error}`);
     }
-
     onPaymentAdded();
-
     setLoanId('');
     setPaymentDate('');
     setPaymentAmount('');
