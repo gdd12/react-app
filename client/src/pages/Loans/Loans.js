@@ -12,6 +12,11 @@ const Loans = () => {
   const [validToken, setValidToken] = useState(null);
   const [loans, setLoans] = useState([]);
   const [payments, setPayments] = useState([]);
+  const [editPaymentModal, setEditPaymentModal] = useState(false)
+// Sorting & Filtering states
+  const [sortBy, setSortBy] = useState('date');
+  const [sortOrder, setSortOrder] = useState('desc');
+  const [selectedLoanType, setSelectedLoanType] = useState('');
 
   const getLoans = useCallback(async () => {
     const loansData = await GetLoans(token);
@@ -59,6 +64,11 @@ const Loans = () => {
     };
   };
 
+  const toggleEditPayment = async (paymentId) => {
+    // Show a modal with this paymentId's information and allow the user to change anything init.
+    setEditPaymentModal(!editPaymentModal)
+  }
+
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     return date.toLocaleDateString('en-US', {
@@ -67,6 +77,31 @@ const Loans = () => {
       day: 'numeric',
     });
   };
+
+  const handleSortChange = (e) => {
+    setSortBy(e.target.value);
+  };
+
+  const toggleSortOrder = () => {
+    setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+  };
+
+  const handleFilterByLoanType = (e) => {
+    setSelectedLoanType(e.target.value);
+  };
+
+  const filteredPayments = selectedLoanType ? payments.filter(payment => payment.loan_type === selectedLoanType) : payments;
+
+  const sortedAndFilteredPayments = [...filteredPayments].sort((a, b) => {
+    if (sortBy === 'date') {
+      const dateA = new Date(a.payment_date);
+      const dateB = new Date(b.payment_date);
+      return sortOrder === 'asc' ? dateA - dateB : dateB - dateA;
+    } else if (sortBy === 'amount') {
+      return sortOrder === 'asc' ? a.payment_amount - b.payment_amount : b.payment_amount - a.payment_amount;
+    }
+    return 0;
+  });
 
   return (
     <>
@@ -91,21 +126,46 @@ const Loans = () => {
         </div>
         <div className="payment-content">
           <h2>Payments</h2>
+          <div className="filter-sorting">
+            <label>Sort By:</label>
+            <select value={sortBy} onChange={handleSortChange}>
+              <option value="date">Date</option>
+              <option value="amount">Amount</option>
+            </select>
+            <button style={{marginLeft: '10px'}}onClick={toggleSortOrder}>
+              {sortOrder.toUpperCase() === 'ASC' ? 'DESC' : 'ASC'}
+            </button>
+          </div>
+          <div className="filter-sorting">
+            <label>Filter by Loan:</label>
+            <select value={selectedLoanType} onChange={handleFilterByLoanType}>
+              <option value="">All Loans</option>
+              {Array.from(new Set(payments.map(payment => payment.loan_type))).map((loanType, index) => (
+                <option key={index} value={loanType}>{loanType}</option>
+              ))}
+            </select>
+          </div>
           <table className="payment-table">
             <tbody>
-              {payments.map((payment, index) => (
+              {sortedAndFilteredPayments.map((payment, index) => (
                 <tr key={index}>
                   <td><strong>Loan:</strong> {payment.loan_type}</td>
                   <td><strong>Amount:</strong> ${payment.payment_amount}</td>
                   <td><strong>Date:</strong> {formatDate(payment.payment_date)}</td>
                   <td><strong>Principal:</strong> ${payment.principal_amount}</td>
                   <td><strong>Interest:</strong> ${payment.interest_amount}</td>
+                  <td><button onClick={() => toggleEditPayment(payment.payment_id)}>Edit</button></td>
                   <td><button onClick={() => removePayment(payment.payment_id)}>Delete</button></td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
+        {/* Implement modal for editing the payment */}
+        { editPaymentModal && 
+          <div style={{position: 'absolute'}}>
+            <h2>TEST</h2>
+          </div>}
       </div>
     </>
   );
