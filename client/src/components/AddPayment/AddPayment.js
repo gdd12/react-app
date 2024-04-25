@@ -55,7 +55,7 @@ const AddPaymentComponent = ({ onPaymentAdded, onCancel }) => {
             Select Loan:
             <select value={loanId} onChange={(e) => setLoanId(e.target.value)}>
               <option value="">Select Loan Type</option>
-              {loanNames.map((loan) => (
+              {(loanNames && loanNames.length > 0) && loanNames.map((loan) => (
                 <option key={loan.loan_id} value={loan.loan_id}>
                   {loan.loan_type}
                 </option>

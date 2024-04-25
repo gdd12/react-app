@@ -64,7 +64,7 @@ const Loans = () => {
     if (window.confirm("Are you sure you want to remove this loan?")) {
       const removedLoanData = await RemoveLoan(token, loanId);
       if (removedLoanData.response && removedLoanData.response.status !== 200) {
-        return alert(`Error ${removedLoanData.response.status} ${removedLoanData.response.data.error}`)
+        return
       };
       await getLoans();
     };
@@ -74,7 +74,7 @@ const Loans = () => {
     if (window.confirm("Are you sure you want to remove this payment?")) {
       const removePaymentData = await RemovePayment(token, paymentId);
       if (removePaymentData.response && removePaymentData.response.status !== 200) {
-        alert(`Error ${removePaymentData.response.status} ${removePaymentData.response.data.error}`)
+        return
       } else {
         await getPayments();
       };
@@ -85,7 +85,7 @@ const Loans = () => {
     const getPaymentData = await GetPayment(token, paymentId)
 
     if (getPaymentData.response && getPaymentData.response.status !== 200) {
-      alert(`Error ${getPaymentData.response.status} ${getPaymentData.response.data.error}`)
+      return
     } else {
       const { payment_id, loan_id, payment_date, payment_amount, principal_amount, interest_amount, loan_type} = getPaymentData.data[0];
       const formattedPaymentDate = new Date(payment_date).toISOString().split('T')[0];
