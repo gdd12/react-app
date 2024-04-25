@@ -3,7 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import Navigation from '../../components/Navigation/Navigation';
 import ValidateToken from '../../helpers/ValidateToken';
 import { GetLoans, RemoveLoan } from '../../helpers/Loans';
-import { GetPayment, GetPayments, EditPayment, RemovePayment, AddPayment } from '../../helpers/Payments';
+import { GetPayment, GetPayments, EditPayment, RemovePayment } from '../../helpers/Payments';
+import AddLoanComponent from '../../components/AddLoan/AddLoan';
+import AddPaymentComponent from '../../components/AddPayment/AddPayment';
 import './Loans.css';
 
 const Loans = () => {
@@ -13,6 +15,9 @@ const Loans = () => {
   const [loans, setLoans] = useState([]);
   const [payments, setPayments] = useState([]);
   const [editPaymentModal, setEditPaymentModal] = useState(false)
+
+  const [addLoanModal, setAddLoanModal] = useState(false)
+  const [addPaymentModal, setAddPaymentModal] = useState(false)
 // Sorting & Filtering states
   const [sortBy, setSortBy] = useState('date');
   const [sortOrder, setSortOrder] = useState('desc');
@@ -31,11 +36,13 @@ const Loans = () => {
   const getLoans = useCallback(async () => {
     const loansData = await GetLoans(token);
     setLoans(loansData.data)
+    setAddLoanModal(false)
   }, [token]);
 
   const getPayments = useCallback(async () => {
     const paymentsData = await GetPayments(token);
     setPayments(paymentsData.data);
+    setAddPaymentModal(false);
   }, [token]);
 
   useEffect(() => {
@@ -166,7 +173,10 @@ const Loans = () => {
       <Navigation />
       <div className="loan-content-container">
         <div className="loan-content">
-          <h2>Loans</h2>
+          <div className="loan-header">
+            <h2>Loans</h2>
+            <button onClick={() => setAddLoanModal(!addLoanModal)}>Add Loan</button>
+          </div>
           <ul className="loan-list">
             {loans.length > 0 && loans.map((loan, index) => (
               <li key={index} className="loan-item">
@@ -183,7 +193,10 @@ const Loans = () => {
           </ul>
         </div>
         <div className="payment-content">
-          <h2>Payments</h2>
+          <div className="payment-header">
+            <h2>Payments</h2>
+            <button onClick={() => setAddPaymentModal(!addPaymentModal)}>Add Payment</button>
+          </div>
           <div className="filter-sorting">
             <label>Sort By:</label>
             <select value={sortBy} onChange={handleSortChange}>
@@ -219,7 +232,7 @@ const Loans = () => {
             </tbody>
           </table>
         </div>
-        {editPaymentModal && (
+        {(editPaymentModal || addLoanModal || addPaymentModal) && (
           <div className="modal-overlay" onClick={() => setEditPaymentModal(false)} />
         )}
         { editPaymentModal && <div className="edit-modal">
@@ -233,6 +246,18 @@ const Loans = () => {
             <button style={{marginLeft: '210px'}} onClick={() => setEditPaymentModal(false)}>Cancel</button>
           </form>
         </div>}
+        { addLoanModal &&
+          <AddLoanComponent
+            onCancel={() => setAddLoanModal(false)}
+            onLoanAdded={getLoans}
+          />
+        }
+        { addPaymentModal &&
+          <AddPaymentComponent
+            onCancel={() => setAddPaymentModal(false)}
+            onPaymentAdded={getPayments}
+          />
+          }
       </div>
     </>
   );

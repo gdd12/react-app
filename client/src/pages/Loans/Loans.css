@@ -16,6 +16,16 @@
   margin-left: 20px;
 }
 
+.loan-header, .payment-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.loan-header h2, .payment-header h2 {
+  margin: 0;
+}
+
 .loan-list {
   list-style-type: none;
   padding: 0;
@@ -115,10 +125,6 @@ button:hover {
   border: none;
   border-radius: 5px;
   cursor: pointer;
-}
-
-.edit-modal input[type="submit"]:hover {
-  background-color: #0056b3;
 }
 
 .modal-overlay {
