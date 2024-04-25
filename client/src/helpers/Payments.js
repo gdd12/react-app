@@ -18,6 +18,41 @@ const AddPayment = async (token, requestData) => {
   };
 };
 
+const GetPayment = async (token, paymentId) => {
+  try {
+    const responseData = await axios.get(
+      `${config.api}/payments/payment/${paymentId}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      }
+    )
+    return responseData
+  } catch (error) {
+    console.error('Error fetching payments', error);
+    return error;
+  }
+}
+
+const EditPayment = async (token, requestData) => {
+  try {
+    const { payment_id } = requestData
+    const responseData = await axios.put(
+      `${config.api}/payments/edit-payment/${payment_id}`, requestData,{
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      }
+    )
+    return responseData
+  } catch (error) {
+    console.error('Error updating payment', error);
+    return error;
+  }
+}
+
 const GetPayments = async (token) => {
   try {
     const responseData = await axios.get(
@@ -52,4 +87,4 @@ const RemovePayment = async (token, paymentId) => {
   };
 };
 
-export { AddPayment, GetPayments, RemovePayment };
+export { AddPayment, GetPayment, EditPayment, GetPayments, RemovePayment };

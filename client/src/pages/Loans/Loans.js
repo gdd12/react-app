@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Navigation from '../../components/Navigation/Navigation';
 import ValidateToken from '../../helpers/ValidateToken';
 import { GetLoans, RemoveLoan } from '../../helpers/Loans';
-import { GetPayments, RemovePayment } from '../../helpers/Payments';
+import { GetPayment, GetPayments, EditPayment, RemovePayment, AddPayment } from '../../helpers/Payments';
 import './Loans.css';
 
 const Loans = () => {
@@ -17,6 +17,16 @@ const Loans = () => {
   const [sortBy, setSortBy] = useState('date');
   const [sortOrder, setSortOrder] = useState('desc');
   const [selectedLoanType, setSelectedLoanType] = useState('');
+
+// Editing payment
+  const [loanId, setLoanId] = useState('');
+  /** This state will be used for updating the loan the payment is attached to */
+  // const [loanType, setLoanType] = useState('');
+  const [paymentId, setPaymentId] = useState('');
+  const [paymentDate, setPaymentDate] = useState('');
+  const [paymentAmount, setPaymentAmount] = useState('');
+  const [principalAmount, setPrincipalAmount] = useState('');
+  const [interestAmount, setInterestAmount] = useState('');
 
   const getLoans = useCallback(async () => {
     const loansData = await GetLoans(token);
@@ -65,9 +75,57 @@ const Loans = () => {
   };
 
   const toggleEditPayment = async (paymentId) => {
-    // Show a modal with this paymentId's information and allow the user to change anything init.
-    setEditPaymentModal(!editPaymentModal)
-  }
+    const getPaymentData = await GetPayment(token, paymentId)
+
+    if (getPaymentData.response && getPaymentData.response.status !== 200) {
+      alert(`Error ${getPaymentData.response.status} ${getPaymentData.response.data.error}`)
+    } else {
+      const { payment_id, loan_id, payment_date, payment_amount, principal_amount, interest_amount, loan_type} = getPaymentData.data[0];
+      const formattedPaymentDate = new Date(payment_date).toISOString().split('T')[0];
+
+      setPaymentId(payment_id)
+      setLoanType(loan_type)
+      setLoanId(loan_id)
+      setPaymentDate(formattedPaymentDate)
+      setPaymentAmount(payment_amount)
+      setPrincipalAmount(principal_amount)
+      setInterestAmount(interest_amount)
+      setEditPaymentModal(!editPaymentModal)
+    };
+  };
+
+  const submitEditForm = async (event) => {
+    event.preventDefault();
+
+    const paymentDate = event.target.elements.paymentDate.value;
+    const paymentAmount = parseFloat(event.target.elements.paymentAmount.value);
+    const principalAmount = parseFloat(event.target.elements.principalAmount.value);
+    const interestAmount = parseFloat(event.target.elements.interestAmount.value);
+
+    if (!paymentDate || isNaN(paymentAmount) || isNaN(principalAmount) || isNaN(interestAmount)) {
+      return alert('Please fill in all fields with valid values.');
+    };
+  
+    const requestData = {
+      payment_id: paymentId,
+      loan_id: loanId,
+      payment_date: paymentDate,
+      payment_amount: parseFloat(paymentAmount),
+      principal_amount: parseFloat(principalAmount),
+      interest_amount: parseFloat(interestAmount)
+    };
+
+    const editPaymentData = await EditPayment(sessionStorage.getItem('token'), requestData);
+
+    if (editPaymentData.response && editPaymentData.response.status !== 200) {
+      alert(`Error ${editPaymentData.response.status}: ${editPaymentData.response.data.error}`);
+    } else {
+      event.target.reset();
+      setEditPaymentModal(false);
+      // Successful update, may want to show a toaster or something later on.
+      await getPayments();
+    }
+  };
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -161,11 +219,20 @@ const Loans = () => {
             </tbody>
           </table>
         </div>
-        {/* Implement modal for editing the payment */}
-        { editPaymentModal && 
-          <div style={{position: 'absolute'}}>
-            <h2>TEST</h2>
-          </div>}
+        {editPaymentModal && (
+          <div className="modal-overlay" onClick={() => setEditPaymentModal(false)} />
+        )}
+        { editPaymentModal && <div className="edit-modal">
+          <form onSubmit={submitEditForm}>
+            {/* Future optimization is to edit the loan name */}
+            <label>Payment Date:<input type="date" name="paymentDate" value={paymentDate} onChange={(e) => setPaymentDate(e.target.value)} /></label>
+            <label>Total Amount:<input type="number" name="paymentAmount" value={paymentAmount} onChange={(e) => setPaymentAmount(e.target.value)} /></label>
+            <label>Principal Amount:<input type="number" name="principalAmount" value={principalAmount} onChange={(e) => setPrincipalAmount(e.target.value)} /></label>
+            <label>Interest Amount:<input type="number" name="interestAmount" value={interestAmount} onChange={(e) => setInterestAmount(e.target.value)} /></label>
+            <button type="submit">Update Payment</button>
+            <button style={{marginLeft: '210px'}} onClick={() => setEditPaymentModal(false)}>Cancel</button>
+          </form>
+        </div>}
       </div>
     </>
   );
