@@ -3,12 +3,21 @@ const passport = require('./auth/passport');
 const session = require('express-session');
 const db = require('./database/db');
 const cors = require('cors');
+const Sequelize = require('sequelize');
 const config = require('config');
 const { 
   secretKey, 
   apiVersion, 
   application: {
     port
+  },
+  database: {
+    user,
+    password,
+    host,
+    dbport,
+    database,
+    dialect
   }
 } = config;
 
@@ -36,6 +45,17 @@ app.use(`${apiVersion}/user`, userRoutes)
 app.use(`${apiVersion}/auth`, authRoutes)
 app.use(`${apiVersion}/loans`, loansRoutes)
 app.use(`${apiVersion}/payments`, paymentsRoutes)
+
+const sequelize = new Sequelize(database, user, password, {
+  host: host,
+  dialect: dialect
+});
+
+sequelize.authenticate().then(() => {
+  console.log('Connection has been established successfully.');
+}).catch(err => {
+  console.log('Unable to connect to the database:', err);
+});
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
